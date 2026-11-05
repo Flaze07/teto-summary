@@ -133,7 +133,7 @@ export default function Home() {
   }
 
   return (
-    <div className="w-screen h-screen bg-[#94C4F0] flex flex-col items-center pt-8">
+    <div className="w-screen h-screen bg-[#94C4F0] flex flex-col items-center pt-8 text-black">
 
       {fetchProgress > -1 && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">

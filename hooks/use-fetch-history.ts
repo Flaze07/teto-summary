@@ -19,7 +19,7 @@ export const useFetchHistory = () => {
     const newMatches: Map<string, MatchData> = new Map();
 
     while (true) {
-      const url = new URL("/api/fetch-history", window.location.origin);
+      const url = new URL("/.netlify/functions/fetch-history", window.location.origin);
       url.searchParams.set("id", id);
       url.searchParams.set("pri", String(pri));
       url.searchParams.set("sec", String(sec));

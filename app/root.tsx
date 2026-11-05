@@ -41,7 +41,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
+import { useEffect } from "react";
+import { initDb } from "../services/create-db";
+
 export default function App() {
+  useEffect(() => {
+    initDb();
+  }, []);
+
   return <Outlet />;
 }
 

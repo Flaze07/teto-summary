@@ -133,67 +133,69 @@ export default function Home() {
   }
 
   return (
-    <div className="w-screen h-screen bg-[#94C4F0] flex flex-col items-center pt-8 text-black">
+    <div className="w-full min-h-screen bg-[#94C4F0] flex flex-col items-center px-4 pt-6 pb-8 sm:pt-8 text-black">
 
       {fetchProgress > -1 && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="bg-[#89B8E4] rounded-xl px-10 py-8 shadow-hard flex flex-col items-center gap-3">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+          <div className="bg-[#89B8E4] rounded-xl px-6 py-6 sm:px-10 sm:py-8 shadow-hard flex flex-col items-center gap-3 max-w-full">
             <Icon icon="akar-icons:loading" className="animate-spin text-3xl" />
-            <p className="text-white font-semibold text-lg">Fetching match history…</p>
-            <p className="text-white/80 text-sm">{fetchProgress} matches fetched so far</p>
+            <p className="text-white font-semibold text-lg text-center">Fetching match history…</p>
+            <p className="text-white/80 text-sm text-center">{fetchProgress} matches fetched so far</p>
           </div>
         </div>
       )}
-      <div className="rounded-md bg-[#89B8E4] flex flex-row px-4 py-2 gap-4 shadow-hard">
-        <input 
+      <div className="w-full max-w-sm sm:w-auto rounded-md bg-[#89B8E4] flex flex-row px-4 py-2 gap-4 shadow-hard">
+        <input
           value={queryInput}
           onChange={e => setQueryInput(e.target.value)}
-          className="bg-[#EAEAEA] w-10/12 pl-2"
+          className="bg-[#EAEAEA] w-full sm:w-64 pl-2 min-w-0"
         />
         <button
           onClick={() => fetchMatchHistory(queryInput)}
-          className="bg-[#CDF1C8] px-4 rounded-lg cursor-pointer transition-all hover:bg-[#b8e8b2] active:scale-95 active:brightness-90"
+          className="bg-[#CDF1C8] px-4 rounded-lg cursor-pointer transition-all hover:bg-[#b8e8b2] active:scale-95 active:brightness-90 shrink-0"
         >
           <Icon icon="akar-icons:search" />
         </button>
       </div>
 
-      <table className="mt-4 border-collapse bg-[#A2D2FF] shadow-hard rounded-md overflow-hidden">
-        <thead>
-          <tr>
-            <th className="px-6 py-2 border border-[#89B8E4]"></th>
-            {TIME_SLOTS.map(slot => (
-              <th key={slot} className="px-6 py-2 border border-[#89B8E4]">
-                {SLOT_LABELS[slot]}
-              </th>
-            ))}
-            <th className="px-6 py-2 border border-[#89B8E4] font-bold">All</th>
-          </tr>
-        </thead>
-        <tbody>
-          {STAT_ROWS.map(({ label, key, format }) => (
-            <tr key={key}>
-              <td className="px-6 py-2 border border-[#89B8E4] font-semibold">{label}</td>
-              {TIME_SLOTS.map(slot => {
-                const stats = gamestats.get(slot);
-                return (
-                  <td key={slot} className="px-6 py-2 border border-[#89B8E4] text-center">
-                    {stats && stats.total > 0 ? format(stats[key]) : "—"}
-                  </td>
-                );
-              })}
-              {(() => {
-                const all = gamestats.get("all" as TimeSlot);
-                return (
-                  <td className="px-6 py-2 border border-[#89B8E4] text-center font-bold">
-                    {all && all.total > 0 ? format(all[key]) : "—"}
-                  </td>
-                );
-              })()}
+      <div className="mt-4 w-full max-w-full overflow-x-auto">
+        <table className="mx-auto border-collapse bg-[#A2D2FF] shadow-hard rounded-md overflow-hidden text-xs sm:text-base">
+          <thead>
+            <tr>
+              <th className="px-2 py-2 sm:px-6 border border-[#89B8E4] whitespace-nowrap"></th>
+              {TIME_SLOTS.map(slot => (
+                <th key={slot} className="px-2 py-2 sm:px-6 border border-[#89B8E4] whitespace-nowrap">
+                  {SLOT_LABELS[slot]}
+                </th>
+              ))}
+              <th className="px-2 py-2 sm:px-6 border border-[#89B8E4] font-bold whitespace-nowrap">All</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {STAT_ROWS.map(({ label, key, format }) => (
+              <tr key={key}>
+                <td className="px-2 py-2 sm:px-6 border border-[#89B8E4] font-semibold whitespace-nowrap">{label}</td>
+                {TIME_SLOTS.map(slot => {
+                  const stats = gamestats.get(slot);
+                  return (
+                    <td key={slot} className="px-2 py-2 sm:px-6 border border-[#89B8E4] text-center whitespace-nowrap">
+                      {stats && stats.total > 0 ? format(stats[key]) : "—"}
+                    </td>
+                  );
+                })}
+                {(() => {
+                  const all = gamestats.get("all" as TimeSlot);
+                  return (
+                    <td className="px-2 py-2 sm:px-6 border border-[#89B8E4] text-center font-bold whitespace-nowrap">
+                      {all && all.total > 0 ? format(all[key]) : "—"}
+                    </td>
+                  );
+                })()}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
